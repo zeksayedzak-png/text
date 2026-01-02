@@ -1,4 +1,4 @@
--- 💎 MASS STONE MERGER - 100,000 STONES
+-- 💎 MASS STONE MERGER - MOBILE EDITION
 -- ⚠️ FOR EDUCATIONAL PURPOSES ONLY
 
 local Players = game:GetService("Players")
@@ -7,19 +7,19 @@ local CoreGui = game:GetService("CoreGui")
 
 -- تنظيف
 for _, gui in pairs(CoreGui:GetChildren()) do
-    if gui.Name == "StoneMerger" then
+    if gui.Name == "StoneMergerMobile" then
         gui:Destroy()
     end
 end
 
--- الواجهة
+-- الواجهة الصغيرة للموبايل
 local gui = Instance.new("ScreenGui")
-gui.Name = "StoneMerger"
+gui.Name = "StoneMergerMobile"
 gui.Parent = CoreGui
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 320, 0, 280)
-frame.Position = UDim2.new(0.5, -160, 0.1, 0)
+frame.Size = UDim2.new(0, 280, 0, 220) -- ⬅️ أصغر للموبايل
+frame.Position = UDim2.new(0.1, 0, 0.1, 0) -- ⬅️ في الزاوية
 frame.BackgroundColor3 = Color3.fromRGB(40, 50, 70)
 frame.BorderSizePixel = 0
 frame.Parent = gui
@@ -55,352 +55,235 @@ frame.InputChanged:Connect(function(input)
 end)
 
 local title = Instance.new("TextLabel")
-title.Text = "💎 MASS STONE MERGER (اسحبني)"
-title.Size = UDim2.new(1, 0, 0, 35)
+title.Text = "💎 STONE MERGER (اسحبني)"
+title.Size = UDim2.new(1, 0, 0, 30) -- ⬅️ أصغر
 title.BackgroundColor3 = Color3.fromRGB(150, 50, 200)
 title.TextColor3 = Color3.new(1, 1, 1)
 title.Font = Enum.Font.SourceSansBold
-title.TextSize = 16
+title.TextSize = 14 -- ⬅️ أصغر
 title.Parent = frame
 
--- البحث عن الـ Pickaxe
+-- البحث عن الـ Pickaxe بطريقة مبسطة للموبايل
 local function findArcanePickaxe()
-    -- المسار الأول
-    local pickaxe1 = player.PlayerGui:FindFirstChild("Menu")
-    if pickaxe1 then
-        pickaxe1 = pickaxe1:FindFirstChild("Frame")
-        if pickaxe1 then
-            pickaxe1 = pickaxe1:FindFirstChild("Frame")
-            if pickaxe1 then
-                pickaxe1 = pickaxe1:FindFirstChild("Menus")
-                if pickaxe1 then
-                    pickaxe1 = pickaxe1:FindFirstChild("Tools")
-                    if pickaxe1 then
-                        pickaxe1 = pickaxe1:FindFirstChild("Frame")
-                        if pickaxe1 then
-                            pickaxe1 = pickaxe1:FindFirstChild("Arcane Pickaxe")
-                        end
-                    end
-                end
+    -- محاولة مباشرة
+    local pickaxe = player:FindFirstChild("Backpack")
+    if pickaxe then
+        pickaxe = pickaxe:FindFirstChild("Arcane Pickaxe")
+        if pickaxe then return pickaxe end
+    end
+    
+    -- في PlayerGui
+    if player:FindFirstChild("PlayerGui") then
+        -- البحث في جميع الأماكن
+        for _, child in pairs(player.PlayerGui:GetDescendants()) do
+            if child.Name == "Arcane Pickaxe" then
+                return child
             end
         end
     end
     
-    -- المسار الثاني (Backpack)
-    local pickaxe2 = player.PlayerGui:FindFirstChild("BackpackGui")
-    if pickaxe2 then
-        pickaxe2 = pickaxe2:FindFirstChild("Backpack")
-    end
-    
-    return pickaxe1 or pickaxe2
+    return nil
 end
 
--- حجارة للدمج
-local stones = {
-    {
-        name = "Stone 1",
-        size = Vector3.new(7.1, 9.6, 8.5),
-        position = Vector3.new(454.1, 130.6, -63.6),
-        color = Color3.new(1.00, 0.35, 0.35)
-    },
-    {
-        name = "Stone 2", 
-        size = Vector3.new(8.6, 8.1, 8.1),
-        position = Vector3.new(136.3, 37.2, 429.5),
-        color = Color3.new(1.00, 0.35, 0.35)
-    },
-    -- يمكن إضافة المزيد
-}
-
--- زر البحث عن الحجارة
+-- زر البحث المبسط
 local scanBtn = Instance.new("TextButton")
-scanBtn.Text = "🔍 SCAN STONES"
-scanBtn.Size = UDim2.new(0.9, 0, 0, 35)
-scanBtn.Position = UDim2.new(0.05, 0, 0.15, 0)
+scanBtn.Text = "🔍 FIND PICKAXE"
+scanBtn.Size = UDim2.new(0.9, 0, 0, 30) -- ⬅️ أصغر
+scanBtn.Position = UDim2.new(0.05, 0, 0.2, 0)
 scanBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
 scanBtn.TextColor3 = Color3.new(1, 1, 1)
 scanBtn.Font = Enum.Font.SourceSansBold
+scanBtn.TextSize = 13 -- ⬅️ أصغر
 scanBtn.Parent = frame
 
--- زر دمج 100K
-local merge100kBtn = Instance.new("TextButton")
-merge100kBtn.Text = "💥 MERGE 100,000 STONES"
-merge100kBtn.Size = UDim2.new(0.9, 0, 0, 40)
-merge100kBtn.Position = UDim2.new(0.05, 0, 0.3, 0)
-merge100kBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-merge100kBtn.TextColor3 = Color3.new(1, 1, 1)
-merge100kBtn.Font = Enum.Font.SourceSansBold
-merge100kBtn.Parent = frame
+-- زر دمج 10K (أقل للموبايل)
+local mergeBtn = Instance.new("TextButton")
+mergeBtn.Text = "💥 MERGE 10K"
+mergeBtn.Size = UDim2.new(0.9, 0, 0, 35) -- ⬅️ أصغر
+mergeBtn.Position = UDim2.new(0.05, 0, 0.35, 0)
+mergeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+mergeBtn.TextColor3 = Color3.new(1, 1, 1)
+mergeBtn.Font = Enum.Font.SourceSansBold
+mergeBtn.TextSize = 14 -- ⬅️ أصغر
+mergeBtn.Parent = frame
 
--- زر دمج جميع الحجارة
-local mergeAllBtn = Instance.new("TextButton")
-mergeAllBtn.Text = "💎 MERGE ALL STONES IN MAP"
-mergeAllBtn.Size = UDim2.new(0.9, 0, 0, 40)
-mergeAllBtn.Position = UDim2.new(0.05, 0, 0.45, 0)
-mergeAllBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 100)
-mergeAllBtn.TextColor3 = Color3.new(1, 1, 1)
-mergeAllBtn.Font = Enum.Font.SourceSansBold
-mergeAllBtn.Parent = frame
+-- زر إلغاء
+local stopBtn = Instance.new("TextButton")
+stopBtn.Text = "⏹ STOP"
+stopBtn.Size = UDim2.new(0.9, 0, 0, 30) -- ⬅️ أصغر
+stopBtn.Position = UDim2.new(0.05, 0, 0.5, 0)
+stopBtn.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+stopBtn.TextColor3 = Color3.new(1, 1, 1)
+stopBtn.Font = Enum.Font.SourceSansBold
+stopBtn.TextSize = 13 -- ⬅️ أصغر
+stopBtn.Parent = frame
 
 -- النتائج
 local resultBox = Instance.new("TextLabel")
-resultBox.Text = "👉 ابحث عن الحجارة أولاً"
-resultBox.Size = UDim2.new(0.9, 0, 0, 70)
-resultBox.Position = UDim2.new(0.05, 0, 0.7, 0)
+resultBox.Text = "👉 اضغط FIND PICKAXE"
+resultBox.Size = UDim2.new(0.9, 0, 0, 60) -- ⬅️ أصغر
+resultBox.Position = UDim2.new(0.05, 0, 0.65, 0)
 resultBox.BackgroundColor3 = Color3.fromRGB(35, 45, 65)
 resultBox.TextColor3 = Color3.new(1, 1, 1)
 resultBox.TextWrapped = true
 resultBox.Font = Enum.Font.SourceSans
+resultBox.TextSize = 12 -- ⬅️ أصغر
 resultBox.Parent = frame
 
--- دالة البحث عن الحجارة في الماب
-local function scanForStones()
-    resultBox.Text = "🔍 جاري البحث عن الحجارة...\n"
-    
-    local foundStones = {}
-    
-    -- البحث في workspace
-    for _, part in pairs(workspace:GetDescendants()) do
-        if part:IsA("Part") or part:IsA("MeshPart") then
-            -- تحقق إذا كان حجر
-            local isStone = false
-            
-            -- البحث عن كلمة "Stone" أو "Rock" في الاسم
-            if part.Name:lower():find("stone") or 
-               part.Name:lower():find("rock") or
-               part.Name:lower():find("حجر") then
-                isStone = true
-            end
-            
-            -- أو لون أحمر (مثل اللي في الأمثلة)
-            if part.Color.R > 0.8 and part.Color.G < 0.5 then
-                isStone = true
-            end
-            
-            if isStone then
-                table.insert(foundStones, {
-                    part = part,
-                    position = part.Position,
-                    size = part.Size
-                })
-            end
-        end
-    end
-    
-    resultBox.Text = resultBox.Text .. "✅ وجدت " .. #foundStones .. " حجر\n"
-    
-    if #foundStones > 0 then
-        for i, stone in ipairs(foundStones) do
-            if i <= 5 then  -- عرض أول 5 فقط
-                resultBox.Text = resultBox.Text .. i .. ". " .. stone.part.Name .. "\n"
-            end
-        end
-        
-        if #foundStones > 5 then
-            resultBox.Text = resultBox.Text .. "...و " .. (#foundStones - 5) .. " أكثر\n"
-        end
-    end
-    
-    return foundStones
-end
+-- متغيرات
+local isMerging = false
+local foundPickaxe = nil
 
--- دالة دمج حجر معين
-local function mergeStone(stoneData, count)
-    local pickaxe = findArcanePickaxe()
+-- البحث عن Pickaxe
+scanBtn.MouseButton1Click:Connect(function()
+    resultBox.Text = "🔍 جاري البحث عن Pickaxe..."
     
-    if not pickaxe then
-        return false, "❌ ما لقيت Arcane Pickaxe"
+    foundPickaxe = findArcanePickaxe()
+    
+    if foundPickaxe then
+        resultBox.Text = "✅ وجدت: " .. foundPickaxe.Name .. "\n"
+        resultBox.Text = resultBox.Text .. "📍 في: " .. foundPickaxe:GetFullName()
+        mergeBtn.Text = "💥 MERGE 10K (جاهز)"
+        mergeBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+    else
+        resultBox.Text = "❌ ما لقيت Arcane Pickaxe\n"
+        resultBox.Text = resultBox.Text .. "🔍 ابحث في Backpack يدوياً"
+        mergeBtn.Text = "💥 MERGE 10K"
+        mergeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
     end
-    
-    -- إنشاء Hitbox وهمي
-    local fakeStone = Instance.new("Part")
-    fakeStone.Size = stoneData.size
-    fakeStone.Position = stoneData.position
-    fakeStone.Color = stoneData.color
-    fakeStone.Material = Enum.Material.Plastic
-    fakeStone.Anchored = true
-    fakeStone.CanCollide = false
-    fakeStone.Transparency = 0.5  -- شفاف
-    fakeStone.Name = "MERGING_STONE_" .. count
-    fakeStone.Parent = workspace
-    
-    -- محاولة إرسال طلب دمج
-    local success = false
+end)
+
+-- دالة دمج مبسطة للموبايل
+local function simpleMerge()
+    if not foundPickaxe then
+        resultBox.Text = "❌ ما فيش Pickaxe!\n"
+        resultBox.Text = resultBox.Text .. "اضغط FIND PICKAXE أولاً"
+        return false
+    end
     
     -- البحث عن RemoteEvents للدمج
-    local mergeRemotes = {}
     for _, remote in pairs(game:GetDescendants()) do
         if remote:IsA("RemoteEvent") then
-            if remote.Name:lower():find("merge") or 
-               remote.Name:lower():find("combine") or
-               remote.Name:lower():find("دمج") then
-                table.insert(mergeRemotes, remote)
+            if remote.Name:lower():find("mine") or 
+               remote.Name:lower():find("collect") or
+               remote.Name:lower():find("merge") then
+                -- إرسال طلب دمج
+                pcall(function()
+                    remote:FireServer({
+                        tool = foundPickaxe,
+                        action = "mine",
+                        count = 10000
+                    })
+                    return true
+                end)
             end
         end
     end
     
-    if #mergeRemotes > 0 then
-        -- إرسال طلب دمج
-        for _, remote in ipairs(mergeRemotes) do
-            pcall(function()
-                remote:FireServer({
-                    tool = pickaxe,
-                    stone = fakeStone,
-                    count = 100000,  -- دمج 100K مرة
-                    player = player
-                })
-                success = true
-            end)
+    -- محاولة بدون Remote
+    pcall(function()
+        if foundPickaxe:IsA("Tool") then
+            foundPickaxe:Activate()
         end
-    else
-        -- محاولة بدون Remote
-        pcall(function()
-            -- محاكاة النقر على Pickaxe
-            if pickaxe:IsA("Tool") then
-                pickaxe:Activate()
-            end
-            
-            -- أو إذا كان GUI Button
-            if pickaxe:IsA("TextButton") or pickaxe:IsA("ImageButton") then
-                pickaxe:Fire("click")
-            end
-            
-            success = true
-        end)
-    end
+    end)
     
-    task.wait(0.05)  -- تأخير قصير
-    
-    -- تنظيف الحجر الوهمي
-    fakeStone:Destroy()
-    
-    return success
+    return true
 end
 
--- دمج 100,000 حجر
-scanBtn.MouseButton1Click:Connect(function()
-    local stonesFound = scanForStones()
+-- دمج 10,000 مرة
+mergeBtn.MouseButton1Click:Connect(function()
+    if isMerging then return end
     
-    if #stonesFound == 0 then
-        -- إذا ما لقيت حجارة، استخدم الحجارة المحددة
-        resultBox.Text = resultBox.Text .. "🔨 استخدام الحجارة الافتراضية\n"
-    end
-end)
-
--- دمج 100,000 مرة
-merge100kBtn.MouseButton1Click:Connect(function()
-    resultBox.Text = "💥 جاري دمج 100,000 حجر...\n"
-    
-    local pickaxe = findArcanePickaxe()
-    if not pickaxe then
-        resultBox.Text = resultBox.Text .. "❌ ما لقيت Arcane Pickaxe"
+    if not foundPickaxe then
+        resultBox.Text = "❌ ابحث عن Pickaxe أولاً!"
         return
     end
     
-    resultBox.Text = resultBox.Text .. "✅ Pickaxe موجود: " .. pickaxe.Name .. "\n"
+    isMerging = true
+    mergeBtn.Text = "⏳ MERGING..."
+    mergeBtn.BackgroundColor3 = Color3.fromRGB(255, 150, 0)
     
-    -- استخدام الحجارة المحددة
-    local targetStone = stones[1]  -- الحجر الأول
+    resultBox.Text = "💥 جاري الدمج...\n"
     
-    local mergedCount = 0
-    local failedCount = 0
+    local merged = 0
+    local failed = 0
     
-    -- دمج 100,000 مرة
-    for i = 1, 100000 do
-        if i % 1000 == 0 then  -- تحديث كل 1000 مرة
-            resultBox.Text = resultBox.Text .. "📊 " .. i .. "/100,000\n"
-            task.wait()  -- منع التجميد
+    -- دمج 10,000 مرة (أقل للموبايل)
+    spawn(function()
+        for i = 1, 10000 do
+            if not isMerging then break end
+            
+            if i % 500 == 0 then
+                resultBox.Text = "📊 " .. i .. "/10000\n"
+                resultBox.Text = resultBox.Text .. "✅ " .. merged .. " ⛔ " .. failed
+                task.wait(0.05) -- تأخير للموبايل
+            end
+            
+            local success = simpleMerge()
+            
+            if success then
+                merged = merged + 1
+            else
+                failed = failed + 1
+            end
+            
+            -- تأخير خفيف للموبايل
+            if i % 100 == 0 then
+                task.wait(0.01)
+            end
         end
         
-        local success = mergeStone(targetStone, i)
+        isMerging = false
+        mergeBtn.Text = "💥 MERGE 10K"
+        mergeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
         
-        if success then
-            mergedCount = mergedCount + 1
-        else
-            failedCount = failedCount + 1
-        end
-        
-        -- تأخير بسيط لمنع الضغط
-        if i % 100 == 0 then
-            task.wait(0.01)
-        end
-    end
-    
-    resultBox.Text = resultBox.Text .. "\n✅ الانتهاء!\n"
-    resultBox.Text = resultBox.Text .. "💎 مدمج: " .. mergedCount .. "\n"
-    resultBox.Text = resultBox.Text .. "❌ فاشل: " .. failedCount
+        resultBox.Text = "✅ انتهى الدمج!\n"
+        resultBox.Text = resultBox.Text .. "💎 مدمج: " .. merged .. "\n"
+        resultBox.Text = resultBox.Text .. "❌ فاشل: " .. failed
+    end)
 end)
 
--- دمج جميع الحجارة في الماب
-mergeAllBtn.MouseButton1Click:Connect(function()
-    resultBox.Text = "💎 جاري دمج كل الحجارة...\n"
-    
-    local allStones = scanForStones()
-    
-    if #allStones == 0 then
-        resultBox.Text = resultBox.Text .. "❌ ما فيش حجارة في الماب"
-        return
-    end
-    
-    resultBox.Text = resultBox.Text .. "🔨 وجدت " .. #allStones .. " حجر\n"
-    
-    local totalMerged = 0
-    
-    for i, stoneData in ipairs(allStones) do
-        resultBox.Text = resultBox.Text .. i .. ". دمج: " .. stoneData.part.Name .. "\n"
-        
-        -- تحويل إلى تنسيق الحجر
-        local stoneConfig = {
-            size = stoneData.size,
-            position = stoneData.position,
-            color = stoneData.part.Color
-        }
-        
-        -- دمج 100 مرة لكل حجر
-        for j = 1, 100 do
-            mergeStone(stoneConfig, (i * 100) + j)
-        end
-        
-        totalMerged = totalMerged + 100
-        
-        if i % 5 == 0 then  # تحديث كل 5 حجارة
-            resultBox.Text = resultBox.Text .. "📊 مدمج حتى الآن: " .. totalMerged .. "\n"
-            task.wait(0.1)
-        end
-    end
-    
-    resultBox.Text = resultBox.Text .. "\n✅ انتهى دمج " .. #allStones .. " حجر\n"
-    resultBox.Text = resultBox.Text .. "💎 إجمالي عمليات الدمج: " .. totalMerged
+-- إيقاف الدمج
+stopBtn.MouseButton1Click:Connect(function()
+    isMerging = false
+    mergeBtn.Text = "💥 MERGE 10K"
+    mergeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+    resultBox.Text = "⏹ توقف الدمج"
 end)
 
--- زر إغلاق
+-- زر إغلاق صغير
 local closeBtn = Instance.new("TextButton")
 closeBtn.Text = "✕"
 closeBtn.Size = UDim2.new(0, 25, 0, 25)
 closeBtn.Position = UDim2.new(1, -25, 0, 0)
 closeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
 closeBtn.TextColor3 = Color3.new(1, 1, 1)
+closeBtn.Font = Enum.Font.SourceSansBold
 closeBtn.Parent = frame
 
 closeBtn.MouseButton1Click:Connect(function()
+    isMerging = false
     gui:Destroy()
 end)
 
--- اكتشاف تلقائي
+-- اكتشاف تلقائي عند التحميل
 spawn(function()
-    wait(2)
-    local pickaxe = findArcanePickaxe()
-    if pickaxe then
-        resultBox.Text = "✅ Arcane Pickaxe موجود!\n"
-        resultBox.Text = resultBox.Text .. "👉 استخدم Merge 100K للدمج"
+    wait(1)
+    foundPickaxe = findArcanePickaxe()
+    
+    if foundPickaxe then
+        resultBox.Text = "✅ Pickaxe موجود!\n"
+        resultBox.Text = resultBox.Text .. "👉 اضغط MERGE 10K"
+        mergeBtn.Text = "💥 MERGE 10K (جاهز)"
+        mergeBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
     else
-        resultBox.Text = "❌ Arcane Pickaxe مش موجود\n"
-        resultBox.Text = resultBox.Text .. "🔍 ابحث في Backpack أو Tools"
+        resultBox.Text = "🔍 ابحث عن Pickaxe\n"
+        resultBox.Text = resultBox.Text .. "اضغط FIND PICKAXE"
     end
 end)
 
 print("========================================")
-print("💎 MASS STONE MERGER LOADED")
-print("🎯 100,000 stones merging")
+print("💎 STONE MERGER MOBILE LOADED")
+print("📱 Optimized for Mobile")
 print("⚠️  FOR EDUCATIONAL PURPOSES ONLY")
 print("========================================")
