@@ -1,4 +1,4 @@
--- 🔓 ADMIN COMMANDS UNLOCKER - Grow a Garden
+-- 💎 MASS STONE MERGER - 100,000 STONES
 -- ⚠️ FOR EDUCATIONAL PURPOSES ONLY
 
 local Players = game:GetService("Players")
@@ -7,27 +7,26 @@ local CoreGui = game:GetService("CoreGui")
 
 -- تنظيف
 for _, gui in pairs(CoreGui:GetChildren()) do
-    if gui.Name == "AdminUnlocker" then
+    if gui.Name == "StoneMerger" then
         gui:Destroy()
     end
 end
 
 -- الواجهة
 local gui = Instance.new("ScreenGui")
-gui.Name = "AdminUnlocker"
+gui.Name = "StoneMerger"
 gui.Parent = CoreGui
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 350, 0, 400) -- ⬅️ تصغير الحجم
-frame.Position = UDim2.new(0.5, -175, 0.1, 0) -- ⬅️ وضعها بالأعلى
-frame.BackgroundColor3 = Color3.fromRGB(30, 40, 55)
+frame.Size = UDim2.new(0, 320, 0, 280)
+frame.Position = UDim2.new(0.5, -160, 0.1, 0)
+frame.BackgroundColor3 = Color3.fromRGB(40, 50, 70)
 frame.BorderSizePixel = 0
 frame.Parent = gui
 
--- 🔥 إضافة التحريك هنا
+-- 🔥 تحريك بالإصبع
 local dragging = false
-local dragStart
-local startPos
+local dragStart, startPos
 
 frame.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.Touch then
@@ -56,357 +55,328 @@ frame.InputChanged:Connect(function(input)
 end)
 
 local title = Instance.new("TextLabel")
-title.Text = "👑 ADMIN (اسحبني)" -- ⬅️ تغيير النص
-title.Size = UDim2.new(1, 0, 0, 35) -- ⬅️ تصغير
-title.BackgroundColor3 = Color3.fromRGB(200, 150, 0)
+title.Text = "💎 MASS STONE MERGER (اسحبني)"
+title.Size = UDim2.new(1, 0, 0, 35)
+title.BackgroundColor3 = Color3.fromRGB(150, 50, 200)
 title.TextColor3 = Color3.new(1, 1, 1)
 title.Font = Enum.Font.SourceSansBold
-title.TextSize = 16 -- ⬅️ تصغير الخط
+title.TextSize = 16
 title.Parent = frame
 
--- البحث عن CmdrClient
-local function findCmdrClient()
-    local CmdrClient = game:GetService("ReplicatedStorage"):FindFirstChild("CmdrClient")
-    if not CmdrClient then
-        return nil
+-- البحث عن الـ Pickaxe
+local function findArcanePickaxe()
+    -- المسار الأول
+    local pickaxe1 = player.PlayerGui:FindFirstChild("Menu")
+    if pickaxe1 then
+        pickaxe1 = pickaxe1:FindFirstChild("Frame")
+        if pickaxe1 then
+            pickaxe1 = pickaxe1:FindFirstChild("Frame")
+            if pickaxe1 then
+                pickaxe1 = pickaxe1:FindFirstChild("Menus")
+                if pickaxe1 then
+                    pickaxe1 = pickaxe1:FindFirstChild("Tools")
+                    if pickaxe1 then
+                        pickaxe1 = pickaxe1:FindFirstChild("Frame")
+                        if pickaxe1 then
+                            pickaxe1 = pickaxe1:FindFirstChild("Arcane Pickaxe")
+                        end
+                    end
+                end
+            end
+        end
     end
     
-    local Commands = CmdrClient:FindFirstChild("Commands")
-    local Types = CmdrClient:FindFirstChild("Types")
+    -- المسار الثاني (Backpack)
+    local pickaxe2 = player.PlayerGui:FindFirstChild("BackpackGui")
+    if pickaxe2 then
+        pickaxe2 = pickaxe2:FindFirstChild("Backpack")
+    end
     
-    return {
-        CmdrClient = CmdrClient,
-        Commands = Commands,
-        Types = Types
-    }
+    return pickaxe1 or pickaxe2
 end
 
--- قائمة الأوامر الإدارية المتاحة
-local adminCommands = {
-    {name = "adminquest", desc = "أضف كويست إداري"},
-    {name = "givepremium", desc = "أعط بريميوم"},
-    {name = "completedailyquests", desc = "أكمل كل الكويستات"},
-    {name = "skipdailyquesttime", desc = "تخطى وقت الكويست"},
-    {name = "globaladminquest", desc = "كويست إداري عالمي"},
-    {name = "skipadventcalendarquests", desc = "تخطى كويستات التقويم"},
-    {name = "progresstime", desc = "تقدم في الوقت"},
-    {name = "progressseasonpass", desc = "تقدم في الموسم"},
-    {name = "clearachievements", desc = "امسح الإنجازات"},
-    {name = "completeachievement", desc = "أكمل إنجاز"}
+-- حجارة للدمج
+local stones = {
+    {
+        name = "Stone 1",
+        size = Vector3.new(7.1, 9.6, 8.5),
+        position = Vector3.new(454.1, 130.6, -63.6),
+        color = Color3.new(1.00, 0.35, 0.35)
+    },
+    {
+        name = "Stone 2", 
+        size = Vector3.new(8.6, 8.1, 8.1),
+        position = Vector3.new(136.3, 37.2, 429.5),
+        color = Color3.new(1.00, 0.35, 0.35)
+    },
+    -- يمكن إضافة المزيد
 }
 
--- زر اكتشاف النظام
-local detectBtn = Instance.new("TextButton")
-detectBtn.Text = "🔍 DETECT SYSTEM"
-detectBtn.Size = UDim2.new(0.9, 0, 0, 35) -- ⬅️ تصغير
-detectBtn.Position = UDim2.new(0.05, 0, 0.1, 0)
-detectBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
-detectBtn.TextColor3 = Color3.new(1, 1, 1)
-detectBtn.Font = Enum.Font.SourceSansBold
-detectBtn.TextSize = 14 -- ⬅️ تصغير
-detectBtn.Parent = frame
+-- زر البحث عن الحجارة
+local scanBtn = Instance.new("TextButton")
+scanBtn.Text = "🔍 SCAN STONES"
+scanBtn.Size = UDim2.new(0.9, 0, 0, 35)
+scanBtn.Position = UDim2.new(0.05, 0, 0.15, 0)
+scanBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
+scanBtn.TextColor3 = Color3.new(1, 1, 1)
+scanBtn.Font = Enum.Font.SourceSansBold
+scanBtn.Parent = frame
 
--- زر تفعيل البايباس
-local bypassBtn = Instance.new("TextButton")
-bypassBtn.Text = "🔓 BYPASS CHECK"
-bypassBtn.Size = UDim2.new(0.9, 0, 0, 35) -- ⬅️ تصغير
-bypassBtn.Position = UDim2.new(0.05, 0, 0.2, 0)
-bypassBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-bypassBtn.TextColor3 = Color3.new(1, 1, 1)
-bypassBtn.Font = Enum.Font.SourceSansBold
-bypassBtn.TextSize = 14 -- ⬅️ تصغير
-bypassBtn.Parent = frame
+-- زر دمج 100K
+local merge100kBtn = Instance.new("TextButton")
+merge100kBtn.Text = "💥 MERGE 100,000 STONES"
+merge100kBtn.Size = UDim2.new(0.9, 0, 0, 40)
+merge100kBtn.Position = UDim2.new(0.05, 0, 0.3, 0)
+merge100kBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+merge100kBtn.TextColor3 = Color3.new(1, 1, 1)
+merge100kBtn.Font = Enum.Font.SourceSansBold
+merge100kBtn.Parent = frame
 
--- حقل إدخال الأمر المخصص
-local customInput = Instance.new("TextBox")
-customInput.PlaceholderText = "أدخل أمر..."
-customInput.Size = UDim2.new(0.9, 0, 0, 30) -- ⬅️ تصغير
-customInput.Position = UDim2.new(0.05, 0, 0.3, 0)
-customInput.BackgroundColor3 = Color3.fromRGB(40, 50, 70)
-customInput.TextColor3 = Color3.new(1, 1, 1)
-customInput.Font = Enum.Font.SourceSans
-customInput.TextSize = 13 -- ⬅️ تصغير
-customInput.Parent = frame
-
--- زر تنفيذ الأمر المخصص
-local executeCustomBtn = Instance.new("TextButton")
-executeCustomBtn.Text = "⚡ EXECUTE"
-executeCustomBtn.Size = UDim2.new(0.9, 0, 0, 35) -- ⬅️ تصغير
-executeCustomBtn.Position = UDim2.new(0.05, 0, 0.38, 0)
-executeCustomBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 100)
-executeCustomBtn.TextColor3 = Color3.new(1, 1, 1)
-executeCustomBtn.Font = Enum.Font.SourceSansBold
-executeCustomBtn.TextSize = 14 -- ⬅️ تصغير
-executeCustomBtn.Parent = frame
-
--- منطقة الأوامر السريعة
-local quickCommandsLabel = Instance.new("TextLabel")
-quickCommandsLabel.Text = "⚡ QUICK COMMANDS:"
-quickCommandsLabel.Size = UDim2.new(0.9, 0, 0, 20) -- ⬅️ تصغير
-quickCommandsLabel.Position = UDim2.new(0.05, 0, 0.5, 0)
-quickCommandsLabel.BackgroundTransparency = 1
-quickCommandsLabel.TextColor3 = Color3.new(1, 1, 1)
-quickCommandsLabel.Font = Enum.Font.SourceSansSemibold
-quickCommandsLabel.TextSize = 12 -- ⬅️ تصغير
-quickCommandsLabel.Parent = frame
-
--- قائمة الأوامر السريعة
-local quickCommandsFrame = Instance.new("ScrollingFrame")
-quickCommandsFrame.Size = UDim2.new(0.9, 0, 0, 120) -- ⬅️ تصغير
-quickCommandsFrame.Position = UDim2.new(0.05, 0, 0.55, 0)
-quickCommandsFrame.BackgroundColor3 = Color3.fromRGB(40, 50, 70)
-quickCommandsFrame.BorderSizePixel = 0
-quickCommandsFrame.CanvasSize = UDim2.new(0, 0, 0, #adminCommands * 35)
-quickCommandsFrame.Parent = frame
+-- زر دمج جميع الحجارة
+local mergeAllBtn = Instance.new("TextButton")
+mergeAllBtn.Text = "💎 MERGE ALL STONES IN MAP"
+mergeAllBtn.Size = UDim2.new(0.9, 0, 0, 40)
+mergeAllBtn.Position = UDim2.new(0.05, 0, 0.45, 0)
+mergeAllBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 100)
+mergeAllBtn.TextColor3 = Color3.new(1, 1, 1)
+mergeAllBtn.Font = Enum.Font.SourceSansBold
+mergeAllBtn.Parent = frame
 
 -- النتائج
 local resultBox = Instance.new("TextLabel")
-resultBox.Text = "👉 اضغط DETECT أولاً"
-resultBox.Size = UDim2.new(0.9, 0, 0, 70) -- ⬅️ تصغير
-resultBox.Position = UDim2.new(0.05, 0, 0.9, 0)
+resultBox.Text = "👉 ابحث عن الحجارة أولاً"
+resultBox.Size = UDim2.new(0.9, 0, 0, 70)
+resultBox.Position = UDim2.new(0.05, 0, 0.7, 0)
 resultBox.BackgroundColor3 = Color3.fromRGB(35, 45, 65)
 resultBox.TextColor3 = Color3.new(1, 1, 1)
 resultBox.TextWrapped = true
 resultBox.Font = Enum.Font.SourceSans
-resultBox.TextSize = 12 -- ⬅️ تصغير
 resultBox.Parent = frame
 
--- متغيرات
-local cmdrSystem = nil
-local isBypassed = false
-local originalFunctions = {}
-
--- اكتشاف CmdrClient
-detectBtn.MouseButton1Click:Connect(function()
-    resultBox.Text = "🔍 جاري البحث عن نظام CmdrClient..."
+-- دالة البحث عن الحجارة في الماب
+local function scanForStones()
+    resultBox.Text = "🔍 جاري البحث عن الحجارة...\n"
     
-    cmdrSystem = findCmdrClient()
+    local foundStones = {}
     
-    if not cmdrSystem then
-        resultBox.Text = "❌ ما لقيت CmdrClient"
-        return
-    end
-    
-    if not cmdrSystem.Commands then
-        resultBox.Text = "❌ Commands مش موجود"
-        return
-    end
-    
-    resultBox.Text = "✅ وجدت CmdrClient!\n"
-    resultBox.Text = resultBox.Text .. "📁 Commands: " .. #cmdrSystem.Commands:GetChildren() .. "\n"
-    
-    -- عرض الأوامر الموجودة
-    local foundCommands = 0
-    for _, cmd in pairs(cmdrSystem.Commands:GetChildren()) do
-        if cmd:IsA("ModuleScript") then
-            foundCommands = foundCommands + 1
-            resultBox.Text = resultBox.Text .. "• " .. cmd.Name .. "\n"
+    -- البحث في workspace
+    for _, part in pairs(workspace:GetDescendants()) do
+        if part:IsA("Part") or part:IsA("MeshPart") then
+            -- تحقق إذا كان حجر
+            local isStone = false
+            
+            -- البحث عن كلمة "Stone" أو "Rock" في الاسم
+            if part.Name:lower():find("stone") or 
+               part.Name:lower():find("rock") or
+               part.Name:lower():find("حجر") then
+                isStone = true
+            end
+            
+            -- أو لون أحمر (مثل اللي في الأمثلة)
+            if part.Color.R > 0.8 and part.Color.G < 0.5 then
+                isStone = true
+            end
+            
+            if isStone then
+                table.insert(foundStones, {
+                    part = part,
+                    position = part.Position,
+                    size = part.Size
+                })
+            end
         end
     end
     
-    resultBox.Text = resultBox.Text .. "\n🎯 جاهز!"
+    resultBox.Text = resultBox.Text .. "✅ وجدت " .. #foundStones .. " حجر\n"
     
-    -- إنشاء أزرار الأوامر السريعة
-    for i, cmd in ipairs(adminCommands) do
-        local cmdBtn = Instance.new("TextButton")
-        cmdBtn.Text = cmd.name
-        cmdBtn.Size = UDim2.new(0.95, 0, 0, 30) -- ⬅️ تصغير
-        cmdBtn.Position = UDim2.new(0.025, 0, 0, (i-1)*35)
-        cmdBtn.BackgroundColor3 = Color3.fromRGB(60, 70, 90)
-        cmdBtn.TextColor3 = Color3.new(1, 1, 1)
-        cmdBtn.Font = Enum.Font.SourceSans
-        cmdBtn.TextSize = 11 -- ⬅️ تصغير
-        cmdBtn.Parent = quickCommandsFrame
+    if #foundStones > 0 then
+        for i, stone in ipairs(foundStones) do
+            if i <= 5 then  -- عرض أول 5 فقط
+                resultBox.Text = resultBox.Text .. i .. ". " .. stone.part.Name .. "\n"
+            end
+        end
         
-        cmdBtn.MouseButton1Click:Connect(function()
-            executeAdminCommand(cmd.name, "")
+        if #foundStones > 5 then
+            resultBox.Text = resultBox.Text .. "...و " .. (#foundStones - 5) .. " أكثر\n"
+        end
+    end
+    
+    return foundStones
+end
+
+-- دالة دمج حجر معين
+local function mergeStone(stoneData, count)
+    local pickaxe = findArcanePickaxe()
+    
+    if not pickaxe then
+        return false, "❌ ما لقيت Arcane Pickaxe"
+    end
+    
+    -- إنشاء Hitbox وهمي
+    local fakeStone = Instance.new("Part")
+    fakeStone.Size = stoneData.size
+    fakeStone.Position = stoneData.position
+    fakeStone.Color = stoneData.color
+    fakeStone.Material = Enum.Material.Plastic
+    fakeStone.Anchored = true
+    fakeStone.CanCollide = false
+    fakeStone.Transparency = 0.5  -- شفاف
+    fakeStone.Name = "MERGING_STONE_" .. count
+    fakeStone.Parent = workspace
+    
+    -- محاولة إرسال طلب دمج
+    local success = false
+    
+    -- البحث عن RemoteEvents للدمج
+    local mergeRemotes = {}
+    for _, remote in pairs(game:GetDescendants()) do
+        if remote:IsA("RemoteEvent") then
+            if remote.Name:lower():find("merge") or 
+               remote.Name:lower():find("combine") or
+               remote.Name:lower():find("دمج") then
+                table.insert(mergeRemotes, remote)
+            end
+        end
+    end
+    
+    if #mergeRemotes > 0 then
+        -- إرسال طلب دمج
+        for _, remote in ipairs(mergeRemotes) do
+            pcall(function()
+                remote:FireServer({
+                    tool = pickaxe,
+                    stone = fakeStone,
+                    count = 100000,  -- دمج 100K مرة
+                    player = player
+                })
+                success = true
+            end)
+        end
+    else
+        -- محاولة بدون Remote
+        pcall(function()
+            -- محاكاة النقر على Pickaxe
+            if pickaxe:IsA("Tool") then
+                pickaxe:Activate()
+            end
+            
+            -- أو إذا كان GUI Button
+            if pickaxe:IsA("TextButton") or pickaxe:IsA("ImageButton") then
+                pickaxe:Fire("click")
+            end
+            
+            success = true
         end)
     end
-end)
-
--- بايباس فحص الصلاحيات
-bypassBtn.MouseButton1Click:Connect(function()
-    if not cmdrSystem then
-        resultBox.Text = "❌ اكتشف النظام أولاً!"
-        return
-    end
     
-    resultBox.Text = "🔧 جاري بايباس..."
+    task.wait(0.05)  -- تأخير قصير
     
-    -- الطريقة 1: تعديل الـ ModuleScripts
-    local bypassSuccess = false
+    -- تنظيف الحجر الوهمي
+    fakeStone:Destroy()
     
-    for _, cmdModule in pairs(cmdrSystem.Commands:GetChildren()) do
-        if cmdModule:IsA("ModuleScript") then
-            pcall(function()
-                local code = require(cmdModule)
-                
-                if type(code) == "table" then
-                    if code.Execute then
-                        originalFunctions[cmdModule.Name] = code.Execute
-                        
-                        code.Execute = function(player, args)
-                            resultBox.Text = resultBox.Text .. "⚡ " .. cmdModule.Name .. "\n"
-                            
-                            local fakePlayer = game:GetService("Players"):GetPlayerByUserId(player.UserId)
-                            if not fakePlayer then
-                                fakePlayer = game.Players.LocalPlayer
-                            end
-                            
-                            if originalFunctions[cmdModule.Name] then
-                                return originalFunctions[cmdModule.Name](fakePlayer, args)
-                            end
-                        end
-                        
-                        bypassSuccess = true
-                    end
-                end
-            end)
-        end
-    end
-    
-    -- الطريقة 2: hooking للـ Remotes
-    if not bypassSuccess then
-        resultBox.Text = resultBox.Text .. "🔄 جرب طريقة أخرى...\n"
-        
-        for _, remote in pairs(game:GetDescendants()) do
-            if remote:IsA("RemoteFunction") and remote.Name:find("Command") then
-                pcall(function()
-                    originalFunctions[remote.Name] = remote.InvokeServer
-                    
-                    remote.InvokeServer = function(self, ...)
-                        local args = {...}
-                        
-                        resultBox.Text = resultBox.Text .. "📡 " .. remote.Name .. "\n"
-                        
-                        args[1] = game.Players.LocalPlayer
-                        
-                        if remote.Name:find("Permission") then
-                            return true
-                        end
-                        
-                        return originalFunctions[remote.Name](self, unpack(args))
-                    end
-                    
-                    bypassSuccess = true
-                end)
-            end
-        end
-    end
-    
-    if bypassSuccess then
-        isBypassed = true
-        bypassBtn.Text = "✅ BYPASS ACTIVE"
-        bypassBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-        resultBox.Text = resultBox.Text .. "\n✅ بايباس ناجح!"
-    else
-        resultBox.Text = resultBox.Text .. "❌ فشل البايباس"
-    end
-end)
-
--- تنفيذ أمر إدمن
-local function executeAdminCommand(commandName, args)
-    if not cmdrSystem or not isBypassed then
-        resultBox.Text = "❌ فعّل البايباس أولاً!"
-        return
-    end
-    
-    resultBox.Text = "🎯 جاري: " .. commandName .. "\n"
-    
-    local commandModule = cmdrSystem.Commands:FindFirstChild(commandName)
-    if not commandModule then
-        resultBox.Text = resultBox.Text .. "❌ الأمر غير موجود"
-        return
-    end
-    
-    local commandArgs = args
-    if commandArgs == "" then
-        if commandName:find("give") then
-            commandArgs = game.Players.LocalPlayer.Name
-        elseif commandName:find("complete") then
-            commandArgs = "all"
-        elseif commandName:find("skip") then
-            commandArgs = "all"
-        end
-    end
-    
-    pcall(function()
-        local cmdCode = require(commandModule)
-        
-        if type(cmdCode) == "table" and cmdCode.Execute then
-            local success, result = pcall(function()
-                return cmdCode.Execute(game.Players.LocalPlayer, commandArgs)
-            end)
-            
-            if success then
-                resultBox.Text = resultBox.Text .. "✅ تم!\n"
-                resultBox.Text = resultBox.Text .. "📤 " .. tostring(result)
-            else
-                resultBox.Text = resultBox.Text .. "❌ فشل: " .. tostring(result)
-            end
-        else
-            resultBox.Text = resultBox.Text .. "❌ لا يمكن تنفيذه"
-        end
-    end)
+    return success
 end
 
--- تنفيذ أمر مخصص
-executeCustomBtn.MouseButton1Click:Connect(function()
-    local inputText = customInput.Text
-    if inputText == "" then
-        resultBox.Text = "❌ أدخل أمراً أولاً"
+-- دمج 100,000 حجر
+scanBtn.MouseButton1Click:Connect(function()
+    local stonesFound = scanForStones()
+    
+    if #stonesFound == 0 then
+        -- إذا ما لقيت حجارة، استخدم الحجارة المحددة
+        resultBox.Text = resultBox.Text .. "🔨 استخدام الحجارة الافتراضية\n"
+    end
+end)
+
+-- دمج 100,000 مرة
+merge100kBtn.MouseButton1Click:Connect(function()
+    resultBox.Text = "💥 جاري دمج 100,000 حجر...\n"
+    
+    local pickaxe = findArcanePickaxe()
+    if not pickaxe then
+        resultBox.Text = resultBox.Text .. "❌ ما لقيت Arcane Pickaxe"
         return
     end
     
-    local parts = {}
-    for part in inputText:gmatch("%S+") do
-        table.insert(parts, part)
+    resultBox.Text = resultBox.Text .. "✅ Pickaxe موجود: " .. pickaxe.Name .. "\n"
+    
+    -- استخدام الحجارة المحددة
+    local targetStone = stones[1]  -- الحجر الأول
+    
+    local mergedCount = 0
+    local failedCount = 0
+    
+    -- دمج 100,000 مرة
+    for i = 1, 100000 do
+        if i % 1000 == 0 then  -- تحديث كل 1000 مرة
+            resultBox.Text = resultBox.Text .. "📊 " .. i .. "/100,000\n"
+            task.wait()  -- منع التجميد
+        end
+        
+        local success = mergeStone(targetStone, i)
+        
+        if success then
+            mergedCount = mergedCount + 1
+        else
+            failedCount = failedCount + 1
+        end
+        
+        -- تأخير بسيط لمنع الضغط
+        if i % 100 == 0 then
+            task.wait(0.01)
+        end
     end
     
-    if #parts == 0 then return end
-    
-    local commandName = parts[1]
-    local args = ""
-    
-    if #parts > 1 then
-        args = table.concat(parts, " ", 2)
-    end
-    
-    executeAdminCommand(commandName, args)
+    resultBox.Text = resultBox.Text .. "\n✅ الانتهاء!\n"
+    resultBox.Text = resultBox.Text .. "💎 مدمج: " .. mergedCount .. "\n"
+    resultBox.Text = resultBox.Text .. "❌ فاشل: " .. failedCount
 end)
 
--- أوامر سريعة مسبقة الصنع
-local preMadeCommands = {
-    {name = "🎁 GET PREMIUM", cmd = "givepremium", args = ""},
-    {name = "🏆 COMPLETE ALL", cmd = "completedailyquests", args = "all"},
-    {name = "⏰ SKIP TIME", cmd = "skipdailyquesttime", args = "all"},
-    {name = "👑 ADMIN QUEST", cmd = "adminquest", args = "add_rewards"}
-}
-
-for i, preCmd in ipairs(preMadeCommands) do
-    local preBtn = Instance.new("TextButton")
-    preBtn.Text = preCmd.name
-    preBtn.Size = UDim2.new(0.9, 0, 0, 25) -- ⬅️ تصغير
-    preBtn.Position = UDim2.new(0.05, 0, 0.75 + (i*0.05), 0)
-    preBtn.BackgroundColor3 = Color3.fromRGB(80, 90, 110)
-    preBtn.TextColor3 = Color3.new(1, 1, 1)
-    preBtn.Font = Enum.Font.SourceSans
-    preBtn.TextSize = 11 -- ⬅️ تصغير
-    preBtn.Parent = frame
+-- دمج جميع الحجارة في الماب
+mergeAllBtn.MouseButton1Click:Connect(function()
+    resultBox.Text = "💎 جاري دمج كل الحجارة...\n"
     
-    preBtn.MouseButton1Click:Connect(function()
-        if cmdrSystem and isBypassed then
-            executeAdminCommand(preCmd.cmd, preCmd.args)
-        else
-            resultBox.Text = "❌ فعّل البايباس أولاً!"
+    local allStones = scanForStones()
+    
+    if #allStones == 0 then
+        resultBox.Text = resultBox.Text .. "❌ ما فيش حجارة في الماب"
+        return
+    end
+    
+    resultBox.Text = resultBox.Text .. "🔨 وجدت " .. #allStones .. " حجر\n"
+    
+    local totalMerged = 0
+    
+    for i, stoneData in ipairs(allStones) do
+        resultBox.Text = resultBox.Text .. i .. ". دمج: " .. stoneData.part.Name .. "\n"
+        
+        -- تحويل إلى تنسيق الحجر
+        local stoneConfig = {
+            size = stoneData.size,
+            position = stoneData.position,
+            color = stoneData.part.Color
+        }
+        
+        -- دمج 100 مرة لكل حجر
+        for j = 1, 100 do
+            mergeStone(stoneConfig, (i * 100) + j)
         end
-    end)
-end
+        
+        totalMerged = totalMerged + 100
+        
+        if i % 5 == 0 then  # تحديث كل 5 حجارة
+            resultBox.Text = resultBox.Text .. "📊 مدمج حتى الآن: " .. totalMerged .. "\n"
+            task.wait(0.1)
+        end
+    end
+    
+    resultBox.Text = resultBox.Text .. "\n✅ انتهى دمج " .. #allStones .. " حجر\n"
+    resultBox.Text = resultBox.Text .. "💎 إجمالي عمليات الدمج: " .. totalMerged
+end)
 
--- زر الإغلاق
+-- زر إغلاق
 local closeBtn = Instance.new("TextButton")
 closeBtn.Text = "✕"
-closeBtn.Size = UDim2.new(0, 25, 0, 25) -- ⬅️ تصغير
+closeBtn.Size = UDim2.new(0, 25, 0, 25)
 closeBtn.Position = UDim2.new(1, -25, 0, 0)
 closeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
 closeBtn.TextColor3 = Color3.new(1, 1, 1)
@@ -416,22 +386,21 @@ closeBtn.MouseButton1Click:Connect(function()
     gui:Destroy()
 end)
 
--- تحقق تلقائي من النظام
+-- اكتشاف تلقائي
 spawn(function()
-    wait(1)
-    resultBox.Text = "🔎 فحص تلقائي..."
-    
-    local tempCmdr = findCmdrClient()
-    if tempCmdr then
-        resultBox.Text = "✅ CmdrClient موجود!\n"
-        resultBox.Text = resultBox.Text .. "👉 اضغط DETECT"
+    wait(2)
+    local pickaxe = findArcanePickaxe()
+    if pickaxe then
+        resultBox.Text = "✅ Arcane Pickaxe موجود!\n"
+        resultBox.Text = resultBox.Text .. "👉 استخدم Merge 100K للدمج"
     else
-        resultBox.Text = "❌ CmdrClient مش موجود\n"
+        resultBox.Text = "❌ Arcane Pickaxe مش موجود\n"
+        resultBox.Text = resultBox.Text .. "🔍 ابحث في Backpack أو Tools"
     end
 end)
 
-print("==========================================")
-print("👑 ADMIN UNLOCKER LOADED")
-print("🎯 Targets: CmdrClient System")
-print("⚠️  FOR SECURITY RESEARCH ONLY")
-print("==========================================")
+print("========================================")
+print("💎 MASS STONE MERGER LOADED")
+print("🎯 100,000 stones merging")
+print("⚠️  FOR EDUCATIONAL PURPOSES ONLY")
+print("========================================")
