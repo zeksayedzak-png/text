@@ -24,6 +24,43 @@ frame.BackgroundColor3 = Color3.fromRGB(30, 40, 55)
 frame.BorderSizePixel = 0
 frame.Parent = gui
 
+-- 🔥 جعل الواجهة تتحرك بالأصابع
+local dragging = false
+local dragStart
+local startPos
+
+-- لما تلمس الشريط العلوي
+title.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = frame.Position
+    end
+end)
+
+-- لما ترفع إصبعك
+title.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+    end
+end)
+
+-- لما تحرك إصبعك
+title.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.Touch then
+        local delta = input.Position - dragStart
+        frame.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
+    end
+end)
+
+-- غير نص العنوان عشان تعرف
+title.Text = "👑 ADMIN (اسحب هنا للتحريك)"
+
 local title = Instance.new("TextLabel")
 title.Text = "👑 ADMIN COMMANDS UNLOCKER"
 title.Size = UDim2.new(1, 0, 0, 40)
